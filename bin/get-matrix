@@ -1,0 +1,84 @@
+#!/bin/sh
+":"; exec emacs -Q --script "$0" -- "$@" # -*- mode: emacs-lisp; lexical-binding: t; -*-
+
+(load (expand-file-name "../../lib/common" load-file-name))
+
+(require 'lisp-mnt)
+(require 'package)
+
+;; https://www.gnu.org/software/emacs/history.html
+;; 2022-09-12 - Emacs 28.2 released
+;; 2022-04-04 - Emacs 28.1 released
+;; 2021-03-25 - Emacs 27.2 released
+;; 2020-08-10 - Emacs 27.1 released
+;; 2019-08-28 - Emacs 26.3 released
+;; 2019-04-12 - Emacs 26.2 released
+;; 2018-05-28 - Emacs 26.1 released
+;; 2017-09-11 - Emacs 25.3 released
+;;   Only fixes a security vulnerability in 25.2.
+;;   Therefore skip the nearly identical 25.2.
+;; 2017-04-21 - Emacs 25.2 released
+;; 2016-09-17 - Emacs 25.1 released
+;; 2015-04-10 - Emacs 24.5 released
+;; 2014-10-20 - Emacs 24.4 released
+;; 2013-03-11 - Emacs 24.3 released
+;; 2012-08-27 - Emacs 24.2 released
+;; 2012-06-10 - Emacs 24.1 released
+(defconst emacs-releases
+  '("24.1" "24.2" "24.3" "24.4" "24.5"
+    "25.1" "25.3"
+    "26.1" "26.2" "26.3"
+    "27.1" "27.2"
+    "28.1" "28.2"))
+
+(defun main ()
+  (let* ((name (file-name-nondirectory
+                (directory-file-name default-directory)))
+         (lib (expand-file-name (format "%s.el" name)))
+         (pkg (expand-file-name (format "%s-pkg.el" name)))
+         (min nil))
+    (unless (file-exists-p lib)
+      (setq lib (expand-file-name (format "lisp/%s.el" name))))
+    (unless (file-exists-p pkg)
+      (setq pkg (expand-file-name (format "lisp/%s-pkg.el" name)))
+      (unless (file-exists-p pkg)
+        (setq pkg nil)))
+    (log "• Directory: %s" default-directory)
+    (log "• Library: %s" lib)
+    (log "• Package: %s" pkg)
+    (unless (or lib pkg)
+      (err "Neither library nor package file found"))
+    (when lib
+      (with-temp-buffer
+        (insert-file-contents lib)
+        (and-let*
+            ((require-lines
+              (lm-header-multiline "package-requires"))
+             (version
+              (cadr (assq 'emacs
+                          (package--prepare-dependencies
+                           (package-read-from-string
+                            (mapconcat #'identity require-lines " ")))))))
+          (setq min (version-to-list version)))))
+    (log "• Minimal Emacs version: %s" (package-version-join min))
+    (unless min
+      (with-temp-buffer
+        (insert-file-contents lib)
+        (setq min (cadr (assq 'emacs (package-desc-reqs
+                                      (package--read-pkg-desc 'tar))))))
+      (unless min
+        (err "Cannot determine minimal Emacs version")))
+    (let ((releases (reverse emacs-releases)) r supported)
+      (while (and (setq r (pop releases))
+                  (version-list-<= min (version-to-list r)))
+        (push r supported))
+      (unless supported
+        (err "Cannot determine Emacs versions to test"))
+      (setq supported (nconc (nreverse supported)
+                             '("release-snapshot" "snapshot")))
+      (log "• matrix=[%s]"
+           (mapconcat (lambda (v) (format "%S" v)) supported ","))
+      (msg "matrix=[%s]"
+           (mapconcat (lambda (v) (format "%S" v)) supported ",")))))
+
+(kill-emacs (catch 'return (prog1 0 (main))))

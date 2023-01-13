@@ -1,0 +1,34 @@
+name: Manual
+permissions: {}
+on:
+  workflow_call:
+    secrets:
+      aws-access-key-id:
+        required: true
+      aws-secret-access-key:
+        required: true
+jobs:
+  manual:
+    name: "Generate manual"
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout ${{ github.repository }}'
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+      - name: 'Install Emacs'
+        uses: purcell/setup-emacs@master
+        with:
+          version: release-snapshot
+      - name: 'Install Texlive'
+        run: sudo apt update && sudo apt install -y texlive
+      - name: 'Generate manual'
+        run: make texi info html html-dir pdf; less docs/texi
+      - name: 'Configure credentials'
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-region: eu-central-1
+          aws-access-key-id: ${{ secrets.aws-access-key-id }}
+          aws-secret-access-key: ${{ secrets.aws-secret-access-key }}
+      - name: 'Publish manual'
+        run: make publish

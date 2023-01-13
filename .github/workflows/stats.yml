@@ -1,0 +1,38 @@
+name: Statistics
+permissions: {}
+on:
+  workflow_call:
+    secrets:
+      aws-access-key-id:
+        required: true
+      aws-secret-access-key:
+        required: true
+jobs:
+  statistics:
+    name: 'Generate statistics'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout ${{ github.repository }}'
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+      - name: 'Set timezone'
+        run: sudo timedatectl set-timezone Europe/Zurich
+      - name: 'Install gitstats dependencies'
+        run: sudo apt update && sudo apt install -y gnuplot python2
+      - name: 'Install gitstats'
+        uses: actions/checkout@v3
+        with:
+          repository: hoxu/gitstats
+          path: gitstats
+          persist-credentials: false
+      - name: 'Generate statistics'
+        run: GITSTATS=../gitstats/gitstats make stats
+      - name: 'Configure credentials'
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-region: eu-central-1
+          aws-access-key-id: ${{ secrets.aws-access-key-id }}
+          aws-secret-access-key: ${{ secrets.aws-secret-access-key }}
+      - name: 'Publish statistics'
+        run: make stats-upload
