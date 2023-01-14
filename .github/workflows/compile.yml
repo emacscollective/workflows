@@ -70,11 +70,10 @@ jobs:
       - name: 'Install dependencies'
         working-directory: ${{ env.pwd }}
         run: ../_scripts/bin/install-deps
-      - name: 'Compile (larifari)'
-        if: ${{ vars.byte_compile_error_on_warn == 'nil' }}
+      - name: 'Compile'
         working-directory: ${{ env.pwd }}
         run: make lisp
-      - name: 'Compile (error-on-warn)'
+      - name: 'Compile (byte-compile-error-on-warn)'
         if: ${{ vars.byte_compile_error_on_warn != 'nil' }}
         working-directory: ${{ env.pwd }}
-        run: make EMACS_ARGS="--eval '(setq byte-compile-error-on-warn t)'" lisp
+        run: make EMACS_ARGS="--eval '(setq byte-compile-error-on-warn t)'" clean lisp
