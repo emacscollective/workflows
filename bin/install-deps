@@ -7,17 +7,13 @@
   (let ((file (expand-file-name "default.mk")))
     (unless (file-exists-p file)
       (setq file (expand-file-name "Makefile")))
-    ;; (msg "default-directory: %s" default-directory)
-    ;; (msg "file: %s" file)
     (with-temp-buffer
       (insert-file-contents file)
       (while (re-search-forward "^DEPS +\\+?= +\\([^/\n]+\\)" nil t)
         (let ((dep (match-string 1)))
-          ;; (msg "• Cloning %s" dep)
+          (msg "• Cloning %s" dep)
           (run "git" "clone" "--depth" "1"
                (concat "https://github.com/emacsmirror/" dep)
-               ;; (concat "/tmp/d/" dep)
-               (concat "../" dep)
-               ))))))
+               (concat "../" dep)))))))
 
 (kill-emacs (catch 'return (prog1 0 (main))))
