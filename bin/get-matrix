@@ -72,8 +72,6 @@
       (while (and (setq r (pop releases))
                   (version-list-<= min (version-to-list r)))
         (push r supported))
-      (unless supported
-        (err "Cannot determine Emacs versions to test"))
       (setq supported (nconc (nreverse supported)
                              '("release-snapshot" "snapshot")))
       (log "• matrix=[%s]"
