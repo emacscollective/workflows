@@ -72,8 +72,12 @@ jobs:
         run: ../_scripts/bin/install-deps
       - name: 'Compile'
         working-directory: ${{ env.pwd }}
-        run: make lisp
+        run: |
+          echo '(declare-function dolist "subr")' > z.el
+          make lisp
       - name: 'Compile (byte-compile-error-on-warn)'
         if: ${{ vars.byte_compile_error_on_warn != 'nil' }}
         working-directory: ${{ env.pwd }}
-        run: make EMACS_ARGS="--eval '(setq byte-compile-error-on-warn t)'" clean lisp
+        run: |
+          echo '(declare-function dolist "subr")' > z.el
+          make EMACS_ARGS="--eval '(setq byte-compile-error-on-warn t)'" clean lisp
