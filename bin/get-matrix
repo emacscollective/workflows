@@ -63,7 +63,7 @@
     (log "• Minimal Emacs version: %s" (package-version-join min))
     (unless min
       (with-temp-buffer
-        (insert-file-contents lib)
+        (insert-file-contents pkg)
         (setq min (cadr (assq 'emacs (package-desc-reqs
                                       (package--read-pkg-desc 'tar))))))
       (unless min
