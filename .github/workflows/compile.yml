@@ -73,11 +73,11 @@ jobs:
       - name: 'Compile'
         working-directory: ${{ env.pwd }}
         run: |
-          echo '(declare-function dolist "subr")' > z.el
+          touch check-declare
           make lisp
       - name: 'Compile (byte-compile-error-on-warn)'
         if: ${{ vars.byte_compile_error_on_warn != 'nil' }}
         working-directory: ${{ env.pwd }}
         run: |
-          echo '(declare-function dolist "subr")' > z.el
+          touch check-declare
           make EMACS_ARGS="--eval '(setq byte-compile-error-on-warn t)'" clean lisp
