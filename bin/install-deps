@@ -14,6 +14,10 @@
           (msg "• Cloning %s" dep)
           (run "git" "clone" "--depth" "1"
                (concat "https://github.com/emacsmirror/" dep)
-               (concat "../" dep)))))))
+               (concat "../" dep))
+	  (when (equal dep "compat")
+	    (let ((default-directory
+		   (expand-file-name "../compat/" default-directory)))
+              (run "make" "all"))))))))
 
 (kill-emacs (catch 'return (prog1 0 (main))))
