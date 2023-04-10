@@ -11,7 +11,6 @@
       (insert-file-contents file)
       (while (re-search-forward "^DEPS +\\+?= +\\([^/\n]+\\)" nil t)
         (let ((dep (match-string 1)))
-          (msg "• Cloning %s" dep)
           (run "git" "clone" "--depth" "1"
                (concat "https://github.com/emacsmirror/" dep)
                (concat "../" dep)))))))
