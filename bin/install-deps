@@ -5,21 +5,21 @@
 
 (defun main ()
   (let ((file (expand-file-name "default.mk"))
-	(urls (url-retrieve-synchronously
-	       "https://emacsmirror.net/stats/upstreams.html")))
+        (urls (url-retrieve-synchronously
+               "https://emacsmirror.net/stats/upstreams.html")))
     (unless (file-exists-p file)
       (setq file (expand-file-name "Makefile")))
     (with-temp-buffer
       (insert-file-contents file)
       (while (re-search-forward "^DEPS +\\+?= +\\([^/\n]+\\)" nil t)
         (let* ((dep (match-string 1))
-	       (url (concat "https://github.com/emacsmirror/" dep)))
-	  (with-current-buffer urls
-	    (goto-char (point-min))
-	    (when (re-search-forward
-		   (format "^<li>%s <a href=\"\\(.+\\)\">" dep)
-		   nil t)
-	      (setq url (match-string 1))))
+               (url (concat "https://github.com/emacsmirror/" dep)))
+          (with-current-buffer urls
+            (goto-char (point-min))
+            (when (re-search-forward
+                   (format "^<li>%s <a href=\"\\(.+\\)\">" dep)
+                   nil t)
+              (setq url (match-string 1))))
           (run "git" "clone" "--depth" "1" url (concat "../" dep)))))))
 
 (kill-emacs (catch 'return (prog1 0 (main))))
