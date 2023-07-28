@@ -1,0 +1,32 @@
+name: Readme
+permissions: {}
+on:
+  workflow_call:
+    secrets:
+      aws-access-key-id:
+        required: true
+      aws-secret-access-key:
+        required: true
+jobs:
+  manual:
+    name: "Export readme"
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout ${{ github.repository }}'
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+      - name: 'Install Emacs'
+        uses: purcell/setup-emacs@master
+        with:
+          version: release-snapshot
+      - name: 'Export readme'
+        run: make html
+      - name: 'Configure credentials'
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-region: eu-central-1
+          aws-access-key-id: ${{ secrets.aws-access-key-id }}
+          aws-secret-access-key: ${{ secrets.aws-secret-access-key }}
+      - name: 'Publish manual'
+        run: make publish
