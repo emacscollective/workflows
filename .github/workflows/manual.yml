@@ -19,7 +19,7 @@ jobs:
       - name: 'Install Emacs'
         uses: purcell/setup-emacs@master
         with:
-          version: release-snapshot
+          version: 29.1
       - name: 'Install Texlive'
         run: sudo apt update && sudo apt install -y texlive
       - name: 'Generate manual'
