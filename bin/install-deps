@@ -3,6 +3,8 @@
 
 (load (expand-file-name "../../lib/common" load-file-name))
 
+(defvar backports '("cl-generic" "cl-lib" "nadvice" "seq"))
+
 (defun main ()
   (let ((file (expand-file-name "default.mk"))
         (urls (url-retrieve-synchronously
@@ -12,14 +14,19 @@
     (with-temp-buffer
       (insert-file-contents file)
       (while (re-search-forward "^DEPS +\\+?= +\\([^/\n]+\\)" nil t)
-        (let* ((dep (match-string 1))
-               (url (concat "https://github.com/emacsmirror/" dep)))
-          (with-current-buffer urls
-            (goto-char (point-min))
-            (when (re-search-forward
-                   (format "^<li>%s <a href=\"\\(.+\\)\">" dep)
-                   nil t)
-              (setq url (match-string 1))))
-          (run "git" "clone" "--depth" "1" url (concat "../" dep)))))))
+        (let* ((dep (match-string 1)))
+          (if (member dep backports)
+              (run "git" "clone" "--depth" "1"
+                   "--single-branch" "--branch" (concat "externals/" dep)
+                   "https://git.savannah.gnu.org/git/emacs/elpa.git"
+                   (concat "../" dep))
+            (let ((url (concat "https://github.com/emacsmirror/" dep)))
+              (with-current-buffer urls
+                (goto-char (point-min))
+                (when (re-search-forward
+                       (format "^<li>%s <a href=\"\\(.+\\)\">" dep)
+                       nil t)
+                  (setq url (match-string 1))))
+              (run "git" "clone" "--depth" "1" url (concat "../" dep)))))))))
 
 (kill-emacs (catch 'return (prog1 0 (main))))
