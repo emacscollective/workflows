@@ -80,4 +80,4 @@ jobs:
         working-directory: ${{ env.pwd }}
         run: |
           touch check-declare
-          make EMACS_ARGS="--eval '(setq byte-compile-error-on-warn t)'" clean lisp
+          make EMACS_ARGS="--eval '(progn (setq byte-compile-error-on-warn t) ${{ vars.compile_error_settings }})'" clean lisp
