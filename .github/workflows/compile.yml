@@ -23,7 +23,7 @@ jobs:
       - name: 'Install Emacs'
         uses: purcell/setup-emacs@master
         with:
-          version: 29.1
+          version: 29.2
       - name: 'Install workflow scripts'
         uses: actions/checkout@v3
         with:
