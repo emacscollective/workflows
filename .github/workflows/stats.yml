@@ -24,7 +24,7 @@ jobs:
       - name: 'Install gitstats'
         uses: actions/checkout@v3
         with:
-          repository: hoxu/gitstats
+          repository: tarsius/gitstats
           path: gitstats
           persist-credentials: false
       - name: 'Generate statistics'
