@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout ${{ github.repository }}'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           persist-credentials: false
@@ -22,7 +22,7 @@ jobs:
       - name: 'Install gitstats dependencies'
         run: sudo apt update && sudo apt install -y gnuplot python2
       - name: 'Install gitstats'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: tarsius/gitstats
           path: gitstats
