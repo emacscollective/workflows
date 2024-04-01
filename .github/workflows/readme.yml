@@ -19,7 +19,7 @@ jobs:
       - name: 'Install Emacs'
         uses: purcell/setup-emacs@master
         with:
-          version: 29.2
+          version: 29.3
       - name: 'Export readme'
         run: make html
       - name: 'Configure credentials'
