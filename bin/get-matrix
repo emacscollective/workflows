@@ -7,6 +7,7 @@
 (require 'package)
 
 ;; https://www.gnu.org/software/emacs/history.html
+;; 2024-03-24 - Emacs 29.3 released
 ;; 2024-01-18 - Emacs 29.2 released
 ;; 2023-07-30 - Emacs 29.1 released
 ;; 2022-09-12 - Emacs 28.2 released
@@ -32,7 +33,7 @@
     "26.1" "26.2" "26.3"
     "27.1" "27.2"
     "28.1" "28.2"
-    "29.1" "29.2"))
+    "29.1" "29.2" "29.3"))
 
 (defun main ()
   (let* ((name (file-name-nondirectory
