@@ -3,7 +3,12 @@
 
 (load (expand-file-name "../../lib/common" load-file-name))
 
-(defvar backports '("cl-generic" "cl-lib" "nadvice" "seq"))
+(defvar get-from-gnu-elpa
+  '(;; Backports for older Emacs releases.
+    "cl-generic" "cl-lib" "nadvice" "seq"
+    ;; Other packages distributed on GNU Elpa for older Emacs releases,
+    ;; which the Emacsmirror does not mirror.
+    "peg"))
 
 (defun main ()
   (let ((file (expand-file-name "default.mk"))
@@ -15,7 +20,7 @@
       (insert-file-contents file)
       (while (re-search-forward "^DEPS +\\+?= +\\([^/\n]+\\)" nil t)
         (let* ((dep (match-string 1)))
-          (if (member dep backports)
+          (if (member dep get-from-gnu-elpa)
               (run "git" "clone" "--depth" "1"
                    "--single-branch" "--branch" (concat "externals/" dep)
                    "https://git.savannah.gnu.org/git/emacs/elpa.git"
