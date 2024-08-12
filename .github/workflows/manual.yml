@@ -31,4 +31,4 @@ jobs:
           aws-access-key-id: ${{ secrets.aws-access-key-id }}
           aws-secret-access-key: ${{ secrets.aws-secret-access-key }}
       - name: 'Publish manual'
-        run: make publish
+        run: make ${{ startsWith(github.ref, 'refs/tags/') && 'release' || 'publish' }}
