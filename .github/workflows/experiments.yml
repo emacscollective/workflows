@@ -1,0 +1,13 @@
+name: Experiments
+permissions: {}
+on:
+  workflow_call:
+jobs:
+  one:
+    name: "Ternary"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "echo github.ref"
+        run: echo ${{ github.ref }}
+      - name: "echo ternary value"
+        run: echo ${{ startsWith(github.ref, 'refs/tags/') && 'release' || 'publish' }}
