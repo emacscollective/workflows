@@ -22,8 +22,6 @@ jobs:
           version: 29.3
       - name: 'Install Texlive'
         run: sudo apt update && sudo apt install -y texlive
-      - name: 'Generate manual'
-        run: make texi info html html-dir pdf
       - name: 'Configure credentials'
         uses: aws-actions/configure-aws-credentials@v4
         with:
