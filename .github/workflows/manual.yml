@@ -11,11 +11,13 @@ jobs:
   manual:
     name: "Generate manual"
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: 'Checkout ${{ github.repository }}'
         uses: actions/checkout@v4
         with:
-          persist-credentials: false
+          fetch-depth: 0
       - name: 'Install Emacs'
         uses: purcell/setup-emacs@master
         with:
@@ -29,4 +31,16 @@ jobs:
           aws-access-key-id: ${{ secrets.aws-access-key-id }}
           aws-secret-access-key: ${{ secrets.aws-secret-access-key }}
       - name: 'Publish manual'
-        run: make ${{ startsWith(github.ref, 'refs/tags/') && 'release' || 'publish' }}
+        id: pub
+        run: |
+          make ${{ startsWith(github.ref, 'refs/tags/') && 'release' || 'publish' }}
+          echo "has_melpa=$(git rev-parse -q --verify refs/remotes/origin/melpa)" >> "$GITHUB_OUTPUT"
+      - name: 'Update melpa branch'
+        if: ${{ github.ref == 'refs/heads/main' && steps.pub.outputs.has_melpa }}
+        run: |
+          git checkout -B melpa main
+          git add --force docs/*.texi
+          git config --global user.name "Jonas Bernoulli"
+          git config --global user.email "emacs.melpa@jonas.bernoulli.dev"
+          git commit -m "Generate texi manual"
+          git push --force origin melpa
