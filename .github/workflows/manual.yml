@@ -14,16 +14,16 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: 'Checkout ${{ github.repository }}'
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
       - name: 'Install Emacs'
         uses: purcell/setup-emacs@master
         with:
           version: 29.3
       - name: 'Install Texlive'
         run: sudo apt update && sudo apt install -y texlive
+      - name: 'Checkout ${{ github.repository }}'
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: 'Configure credentials'
         uses: aws-actions/configure-aws-credentials@v4
         with:
