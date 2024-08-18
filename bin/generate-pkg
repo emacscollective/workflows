@@ -1,0 +1,95 @@
+#!/bin/sh
+":"; exec emacs -Q --script "$0" -- "$@" # -*- mode: emacs-lisp; lexical-binding: t; -*-
+
+(load (expand-file-name "../../lib/common" load-file-name))
+
+(put 'define-package 'lisp-indent-function 'defun)
+
+(setq pp-max-width 80)
+
+(defun pp-to-file (file form)
+  (declare (indent defun))
+  (msg "Generating %s..." file)
+  (with-temp-file file
+    (pp-emacs-lisp-code form)))
+
+(let ((name (file-name-nondirectory (directory-file-name default-directory)))
+      (today (format-time-string "%Y%m%d"))
+      ;; emacs
+      (emacs:forge   "27.1")
+      (emacs:ghub    "26.3")
+      (emacs:magit   "26.1")
+      ;; gelpa
+      (compat        "30.0.0.0")
+      (let-alist     "1.0.6")
+      (seq           "2.24")
+      ;; melpa
+      (dash          "20210826");  2.19.1
+      (markdown-mode "20230830");  2.6
+      (treepy        "20200811");  0.1.2
+      (yaml          "20231211");  0.5.5
+      ;; mine
+      (closql        "20240808");  2.0.0
+      (emacsql       "20240808");  4.0.0
+      (ghub          "20240808");  4.0.0
+      (magit         "20240808");  4.0.0
+      (transient     "20240805");  0.7.4
+      (with-editor   "20240806")); 3.4.1
+  (pcase name
+    ("forge"
+     (pp-to-file "forge-pkg.el"
+       `(define-package "forge" "0"
+          "Access Git forges from Magit."
+          '((emacs         ,emacs:forge)
+            (compat        ,compat)
+            (closql        ,closql)
+            (dash          ,dash)
+            (emacsql       ,emacsql)
+            (ghub          ,ghub)
+            (let-alist     ,let-alist)
+            (magit         ,magit)
+            (markdown-mode ,markdown-mode)
+            (seq           ,seq)
+            (transient     ,transient)
+            (yaml          ,yaml))
+          :homepage "https://github.com/magit/forge"
+          :keywords '("git" "tools" "vc"))))
+    ("ghub"
+     (pp-to-file "ghub-pkg.el"
+       `(define-package "ghub" "0"
+          "Client libraries for Git forge APIs."
+          '((emacs     ,emacs:ghub)
+            (compat    ,seq)
+            (let-alist ,let-alist)
+            (treepy    ,treepy)))))
+    ("magit"
+     (pp-to-file "git-commit-pkg.el"
+       `(define-package "git-commit" "0"
+          "Edit Git commit messages."
+          '((emacs       ,emacs:magit)
+            (compat      ,compat)
+            (transient   ,transient)
+            (with-editor ,with-editor))
+          :homepage "https://magit.vc"
+          :keywords '("git" "tools" "vc")))
+     (pp-to-file "magit-pkg.el"
+       `(define-package "magit" "0"
+          "A Git porcelain inside Emacs."
+          '((emacs         ,emacs:magit)
+            (compat        ,compat)
+            (dash          ,dash)
+            (git-commit    ,today)
+            (magit-section ,today)
+            (seq           ,seq)
+            (transient     ,transient)
+            (with-editor   ,with-editor))
+          :homepage "https://magit.vc"
+          :keywords '("git" "tools" "vc")))
+     (pp-to-file "magit-section-pkg.el"
+       `(define-package "magit-section" "0"
+          "Sections for read-only buffers."
+          '((emacs  ,emacs:magit)
+            (compat ,compat)
+            (dash   ,dash))
+          :homepage "https://magit.vc"
+          :keywords '("tools"))))))

@@ -7,6 +7,8 @@ on:
         required: true
       aws-secret-access-key:
         required: true
+env:
+  pwd: ${{ github.event.repository.name }}
 jobs:
   manual:
     name: "Generate manual"
@@ -20,9 +22,17 @@ jobs:
           version: 29.3
       - name: 'Install Texlive'
         run: sudo apt update && sudo apt install -y texlive
+      - name: 'Checkout scripts'
+        uses: actions/checkout@v4
+        with:
+          repository: emacscollective/workflows
+          ref: ${{ inputs.workflow_ref }}
+          path: _scripts
+          persist-credentials: false
       - name: 'Checkout ${{ github.repository }}'
         uses: actions/checkout@v4
         with:
+          path: ${{ env.pwd }}
           fetch-depth: 0
       - name: 'Configure credentials'
         uses: aws-actions/configure-aws-credentials@v4
@@ -31,16 +41,19 @@ jobs:
           aws-access-key-id: ${{ secrets.aws-access-key-id }}
           aws-secret-access-key: ${{ secrets.aws-secret-access-key }}
       - name: 'Publish manual'
+        working-directory: ${{ env.pwd }}
         id: pub
         run: |
           make ${{ startsWith(github.ref, 'refs/tags/') && 'release' || 'publish' }}
           echo "has_melpa=$(git rev-parse -q --verify refs/remotes/origin/melpa)" >> "$GITHUB_OUTPUT"
       - name: 'Update melpa branch'
+        working-directory: ${{ env.pwd }}
         if: ${{ github.ref == 'refs/heads/main' && steps.pub.outputs.has_melpa }}
         run: |
           git checkout -B melpa main
           git add --force docs/*.texi
+          ../_scripts/bin/generate-pkg
           git config --global user.name "Jonas Bernoulli"
           git config --global user.email "emacs.melpa@jonas.bernoulli.dev"
-          git commit -m "Generate texi manual"
+          git commit -m "Publish for Melpa (always \"main\" + one commit)"
           git push --force origin melpa
