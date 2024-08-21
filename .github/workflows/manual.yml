@@ -53,6 +53,7 @@ jobs:
           git checkout -B melpa main
           git add --force docs/*.texi
           ../_scripts/bin/generate-pkg
+          git add *-pkg.el 2> /dev/null || true
           git config --global user.name "Jonas Bernoulli"
           git config --global user.email "emacs.melpa@jonas.bernoulli.dev"
           git commit -m "Publish for Melpa (always \"main\" + one commit)"
