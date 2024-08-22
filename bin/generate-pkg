@@ -14,6 +14,7 @@
     (pp-emacs-lisp-code form)))
 
 (let ((name (file-name-nondirectory (directory-file-name default-directory)))
+      (version (substring (car (process-lines "git" "describe" "--abbrev=0")) 1))
       (today (format-time-string "%Y%m%d"))
       ;; emacs
       (emacs:forge   "27.1")
@@ -38,7 +39,7 @@
   (pcase name
     ("forge"
      (pp-to-file "forge-pkg.el"
-       `(define-package "forge" "0"
+       `(define-package "forge" ,version
           "Access Git forges from Magit."
           '((emacs         ,emacs:forge)
             (compat        ,compat)
@@ -56,7 +57,7 @@
           :keywords '("git" "tools" "vc"))))
     ("ghub"
      (pp-to-file "ghub-pkg.el"
-       `(define-package "ghub" "0"
+       `(define-package "ghub" ,version
           "Client libraries for Git forge APIs."
           '((emacs     ,emacs:ghub)
             (compat    ,seq)
@@ -64,7 +65,7 @@
             (treepy    ,treepy)))))
     ("magit"
      (pp-to-file "git-commit-pkg.el"
-       `(define-package "git-commit" "0"
+       `(define-package "git-commit" ,version
           "Edit Git commit messages."
           '((emacs       ,emacs:magit)
             (compat      ,compat)
@@ -73,7 +74,7 @@
           :homepage "https://magit.vc"
           :keywords '("git" "tools" "vc")))
      (pp-to-file "magit-pkg.el"
-       `(define-package "magit" "0"
+       `(define-package "magit" ,version
           "A Git porcelain inside Emacs."
           '((emacs         ,emacs:magit)
             (compat        ,compat)
@@ -86,7 +87,7 @@
           :homepage "https://magit.vc"
           :keywords '("git" "tools" "vc")))
      (pp-to-file "magit-section-pkg.el"
-       `(define-package "magit-section" "0"
+       `(define-package "magit-section" ,version
           "Sections for read-only buffers."
           '((emacs  ,emacs:magit)
             (compat ,compat)
