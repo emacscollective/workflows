@@ -33,7 +33,9 @@
       (closql        "20240808");  2.0.0
       (emacsql       "20240808");  4.0.0
       (ghub          "20240808");  4.0.0
+      (git-commit    "20240808");  4.0.0
       (magit         "20240808");  4.0.0
+      (magit-section "20240808");  4.0.0
       (transient     "20240805");  0.7.4
       (with-editor   "20240806")); 3.4.1
   (pcase name
@@ -79,8 +81,8 @@
           '((emacs         ,emacs:magit)
             (compat        ,compat)
             (dash          ,dash)
-            (git-commit    ,today)
-            (magit-section ,today)
+            (git-commit    ,git-commit)
+            (magit-section ,magit-section)
             (seq           ,seq)
             (transient     ,transient)
             (with-editor   ,with-editor))
