@@ -66,22 +66,12 @@
             (let-alist ,let-alist)
             (treepy    ,treepy)))))
     ("magit"
-     (pp-to-file "git-commit-pkg.el"
-       `(define-package "git-commit" ,version
-          "Edit Git commit messages."
-          '((emacs       ,emacs:magit)
-            (compat      ,compat)
-            (transient   ,transient)
-            (with-editor ,with-editor))
-          :homepage "https://magit.vc"
-          :keywords '("git" "tools" "vc")))
      (pp-to-file "magit-pkg.el"
        `(define-package "magit" ,version
           "A Git porcelain inside Emacs."
           '((emacs         ,emacs:magit)
             (compat        ,compat)
             (dash          ,dash)
-            (git-commit    ,git-commit)
             (magit-section ,magit-section)
             (seq           ,seq)
             (transient     ,transient)
