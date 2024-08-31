@@ -31,13 +31,12 @@
       (yaml          "20231211");  0.5.5
       ;; mine
       (closql        "20240808");  2.0.0
-      (emacsql       "20240808");  4.0.0
-      (ghub          "20240808");  4.0.0
-      (git-commit    "20240808");  4.0.0
-      (magit         "20240808");  4.0.0
-      (magit-section "20240808");  4.0.0
-      (transient     "20240805");  0.7.4
-      (with-editor   "20240806")); 3.4.1
+      (emacsql       "20240901");  4.0.2
+      (ghub          "20240901");  4.0.0
+      (magit         "20240901");  4.1.0
+      (magit-section "20240901");  4.1.0
+      (transient     "20240901");  0.7.5
+      (with-editor   "20240901")); 3.4.2
   (pcase name
     ("forge"
      (pp-to-file "forge-pkg.el"
