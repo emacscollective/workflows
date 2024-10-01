@@ -10,7 +10,8 @@ on:
 jobs:
   statistics:
     name: 'Generate statistics'
-    runs-on: ubuntu-latest
+    # ubuntu-24.04 removed python2
+    runs-on: ubuntu-22.04
     steps:
       - name: 'Checkout ${{ github.repository }}'
         uses: actions/checkout@v4
