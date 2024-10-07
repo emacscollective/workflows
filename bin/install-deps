@@ -23,7 +23,9 @@
           (if (member dep get-from-gnu-elpa)
               (run "git" "clone" "--depth" "1"
                    "--single-branch" "--branch" (concat "externals/" dep)
-                   "https://git.savannah.gnu.org/git/emacs/elpa.git"
+                   ;; Use a mirror because this is down too frequently.
+                   ;; "https://git.savannah.gnu.org/git/emacs/elpa.git"
+                   "https://github.com/emacsmirror/gnu_elpa"
                    (concat "../" dep))
             (let ((url (concat "https://github.com/emacsmirror/" dep)))
               (with-current-buffer urls
