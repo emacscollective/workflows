@@ -24,7 +24,7 @@ jobs:
         uses: purcell/setup-emacs@master
         with:
           version: 29.3
-      - name: 'Install workflow scripts'
+      - name: 'Install scripts'
         uses: actions/checkout@v4
         with:
           repository: emacscollective/workflows
@@ -55,7 +55,7 @@ jobs:
         uses: purcell/setup-emacs@master
         with:
           version: ${{ matrix.emacs }}
-      - name: 'Checkout scripts'
+      - name: 'Install scripts'
         uses: actions/checkout@v4
         with:
           repository: emacscollective/workflows

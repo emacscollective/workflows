@@ -12,14 +12,14 @@ jobs:
     name: "Export readme"
     runs-on: ubuntu-latest
     steps:
-      - name: 'Checkout ${{ github.repository }}'
-        uses: actions/checkout@v4
-        with:
-          persist-credentials: false
       - name: 'Install Emacs'
         uses: purcell/setup-emacs@master
         with:
           version: 29.3
+      - name: 'Checkout ${{ github.repository }}'
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - name: 'Export readme'
         run: make html
       - name: 'Configure credentials'
