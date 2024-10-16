@@ -1,4 +1,4 @@
-name: Readme
+name: 'Readme'
 permissions: {}
 on:
   workflow_call:
@@ -9,7 +9,7 @@ on:
         required: true
 jobs:
   manual:
-    name: "Export readme"
+    name: 'Export readme'
     runs-on: ubuntu-latest
     steps:
       - name: 'Install Emacs'

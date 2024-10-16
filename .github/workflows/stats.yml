@@ -1,4 +1,4 @@
-name: Statistics
+name: 'Statistics'
 permissions: {}
 on:
   workflow_call:

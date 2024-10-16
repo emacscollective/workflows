@@ -1,4 +1,4 @@
-name: Test
+name: 'Test'
 permissions: {}
 on:
   workflow_call:
@@ -48,7 +48,7 @@ jobs:
       matrix:
         emacs: ${{ fromJson(needs.matrix.outputs.matrix) }}
     steps:
-      - name: Configure git
+      - name: 'Configure git'
         run: |
           git config --global user.name "A U Thor"
           git config --global user.email a.u.thor@example.com
