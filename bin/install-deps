@@ -20,6 +20,7 @@
       (insert-file-contents file)
       (while (re-search-forward "^DEPS +\\+?= +\\([^/\n]+\\)" nil t)
         (let* ((dep (match-string 1)))
+          (message "Cloning %s..." dep)
           (if (member dep get-from-gnu-elpa)
               (run "git" "clone" "--depth" "1"
                    "--single-branch" "--branch" (concat "externals/" dep)
