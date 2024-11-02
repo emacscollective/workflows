@@ -75,10 +75,16 @@ jobs:
         working-directory: ${{ env.pwd }}
         run: |
           touch check-declare
-          make lisp
+          make EMACS_ARGS="--eval '(progn \
+          (put (quote if-let) (quote byte-obsolete-info) nil) \
+          (put (quote when-let) (quote byte-obsolete-info) nil))'" lisp
       - name: 'Compile (byte-compile-error-on-warn)'
         if: ${{ vars.byte_compile_error_on_warn != 'nil' }}
         working-directory: ${{ env.pwd }}
         run: |
           touch check-declare
-          make EMACS_ARGS="--eval '(progn (setq byte-compile-error-on-warn t) ${{ vars.compile_error_settings }})'" clean lisp
+          make EMACS_ARGS="--eval '(progn \
+          (setq byte-compile-error-on-warn t) \
+          (put (quote if-let) (quote byte-obsolete-info) nil) \
+          (put (quote when-let) (quote byte-obsolete-info) nil) \
+          ${{ vars.compile_error_settings }})'" clean lisp
