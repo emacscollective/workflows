@@ -16,7 +16,7 @@ env:
 jobs:
   matrix:
     name: 'Get matrix'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     outputs:
       matrix: ${{ steps.matrix.outputs.matrix }}
     steps:
@@ -44,7 +44,7 @@ jobs:
           echo "• get-matrix: emacscollective/workflows@${{ inputs.workflow_ref }}"
   main:
     name: 'Compile using Emacs ${{ matrix.emacs }}'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: matrix
     strategy:
       fail-fast: false
