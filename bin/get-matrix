@@ -8,8 +8,14 @@
 
 ;; https://www.gnu.org/software/emacs/history.html
 ;; 2024-06-22 - Emacs 29.4 released
+;;   A security release with no new features.
+;;   It is the last 29.* release, so do not skip.
 ;; 2024-03-24 - Emacs 29.3 released
+;;   A security release with no new features.
+;;   Skip it because it is very similar to 29.4.
 ;; 2024-01-18 - Emacs 29.2 released
+;;   A bug-fix release with no new features.
+;;   Skip it.
 ;; 2023-07-30 - Emacs 29.1 released
 ;; 2022-09-12 - Emacs 28.2 released
 ;; 2022-04-04 - Emacs 28.1 released
@@ -20,8 +26,9 @@
 ;; 2018-05-28 - Emacs 26.1 released
 ;; 2017-09-11 - Emacs 25.3 released
 ;;   Only fixes a security vulnerability in 25.2.
-;;   Therefore skip the nearly identical 25.2.
+;;   It is the last 25.* release, so do not skip.
 ;; 2017-04-21 - Emacs 25.2 released
+;;   Skip because it is very similar to 25.3.
 ;; 2016-09-17 - Emacs 25.1 released
 ;; 2015-04-10 - Emacs 24.5 released
 ;; 2014-10-20 - Emacs 24.4 released
@@ -34,7 +41,7 @@
     "26.1" "26.2" "26.3"
     "27.1" "27.2"
     "28.1" "28.2"
-    "29.1" "29.2" "29.3" "29.4"
+    "29.1" "29.4"
     "30.1"))
 
 (defun main ()
