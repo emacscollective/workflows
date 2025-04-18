@@ -15,7 +15,7 @@ jobs:
       - name: 'Install Emacs'
         uses: purcell/setup-emacs@master
         with:
-          version: 29.4
+          version: 30.1
       - name: 'Checkout ${{ github.repository }}'
         uses: actions/checkout@v4
         with:
