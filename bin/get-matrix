@@ -64,15 +64,8 @@
     (when lib
       (with-temp-buffer
         (insert-file-contents lib)
-        (and-let*
-            ((require-lines
-              (lm-header-multiline "package-requires"))
-             (version
-              (cadr (assq 'emacs
-                          (package--prepare-dependencies
-                           (package-read-from-string
-                            (mapconcat #'identity require-lines " ")))))))
-          (setq min (version-to-list version)))))
+        (setq min (version-to-list
+                   (cadr (assq 'emacs (lm-package-requires)))))))
     (unless min
       (with-temp-buffer
         (insert-file-contents pkg)
