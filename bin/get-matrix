@@ -64,19 +64,19 @@
     (when lib
       (with-temp-buffer
         (insert-file-contents lib)
-        (setq min (version-to-list
-                   (cadr (assq 'emacs (lm-package-requires)))))))
+        (setq min (cadr (assq 'emacs (lm-package-requires))))))
     (unless min
       (with-temp-buffer
         (insert-file-contents pkg)
         (setq min (cadr (assq 'emacs (package-desc-reqs
                                       (package--read-pkg-desc 'tar))))))
-      (unless min
+      (if min
+          (setq min (package-version-join min))
         (err "Cannot determine minimal Emacs version")))
-    (log "• Minimal Emacs version: %s" (package-version-join min))
+    (log "• Minimal Emacs version: %s" min)
     (let ((releases (reverse emacs-releases)) r supported)
       (while (and (setq r (pop releases))
-                  (version-list-<= min (version-to-list r)))
+                  (version<= min r))
         (push r supported))
       (setq supported (nconc (nreverse supported)
                              '("release-snapshot" "snapshot")))
