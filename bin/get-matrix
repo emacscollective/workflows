@@ -73,7 +73,6 @@
                            (package-read-from-string
                             (mapconcat #'identity require-lines " ")))))))
           (setq min (version-to-list version)))))
-    (log "• Minimal Emacs version: %s" (package-version-join min))
     (unless min
       (with-temp-buffer
         (insert-file-contents pkg)
@@ -81,6 +80,7 @@
                                       (package--read-pkg-desc 'tar))))))
       (unless min
         (err "Cannot determine minimal Emacs version")))
+    (log "• Minimal Emacs version: %s" (package-version-join min))
     (let ((releases (reverse emacs-releases)) r supported)
       (while (and (setq r (pop releases))
                   (version-list-<= min (version-to-list r)))
