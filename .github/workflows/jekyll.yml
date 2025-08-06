@@ -1,0 +1,30 @@
+name: 'Publish'
+permissions: {}
+on:
+  workflow_call:
+    secrets:
+      aws-access-key-id:
+        required: true
+      aws-secret-access-key:
+        required: true
+jobs:
+  publish:
+    name: 'Publish page'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: 'Install Jekyll'
+        run: sudo apt install -y jekyll
+      - name: 'Checkout ${{ github.repository }}'
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: 'Generate page'
+        run: jekyll build --trace
+      - name: 'Configure credentials'
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: eu-central-1
+          aws-access-key-id: ${{ secrets.aws-access-key-id }}
+          aws-secret-access-key: ${{ secrets.aws-secret-access-key }}
+      - name: 'Publish page'
+        run: make publish
