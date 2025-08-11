@@ -18,13 +18,13 @@ jobs:
       - name: 'Install gitstats dependencies'
         run: sudo apt update && sudo apt install -y gnuplot python2
       - name: 'Install gitstats'
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: tarsius/gitstats
           path: _gitstats
           persist-credentials: false
       - name: 'Checkout ${{ github.repository }}'
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           path: ${{ env.pwd }}
           fetch-depth: 0

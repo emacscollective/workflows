@@ -20,7 +20,7 @@ jobs:
           version: 30.1
       - name: 'Checkout tarsiiformes/org'
         # Sadly we need a patched version.
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: tarsiiformes/org
           path: org
@@ -33,7 +33,7 @@ jobs:
           touch local.mk
           make autoloads
       - name: 'Checkout ${{ github.repository }}'
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           path: ${{ env.pwd }}
           persist-credentials: false
