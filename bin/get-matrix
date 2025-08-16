@@ -23,9 +23,11 @@
 ;; 2020-08-10 - Emacs 27.1 released
 ;; 2019-08-28 - Emacs 26.3 released
 ;; 2019-04-12 - Emacs 26.2 released
+;;   Skip despite new features, to limit number of builds.
+;;   By now nobody should use this instead of 26.3.
 ;; 2018-05-28 - Emacs 26.1 released
 (defconst emacs-releases
-  '("26.1" "26.2" "26.3"
+  '("26.1" "26.3"
     "27.1" "27.2"
     "28.1" "28.2"
     "29.1" "29.4"
