@@ -24,21 +24,8 @@
 ;; 2019-08-28 - Emacs 26.3 released
 ;; 2019-04-12 - Emacs 26.2 released
 ;; 2018-05-28 - Emacs 26.1 released
-;; 2017-09-11 - Emacs 25.3 released
-;;   Only fixes a security vulnerability in 25.2.
-;;   It is the last 25.* release, so do not skip.
-;; 2017-04-21 - Emacs 25.2 released
-;;   Skip because it is very similar to 25.3.
-;; 2016-09-17 - Emacs 25.1 released
-;; 2015-04-10 - Emacs 24.5 released
-;; 2014-10-20 - Emacs 24.4 released
-;; 2013-03-11 - Emacs 24.3 released
-;; 2012-08-27 - Emacs 24.2 released
-;; 2012-06-10 - Emacs 24.1 released
 (defconst emacs-releases
-  '("24.1" "24.2" "24.3" "24.4" "24.5"
-    "25.1" "25.3"
-    "26.1" "26.2" "26.3"
+  '("26.1" "26.2" "26.3"
     "27.1" "27.2"
     "28.1" "28.2"
     "29.1" "29.4"
