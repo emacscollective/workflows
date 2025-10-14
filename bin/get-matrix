@@ -39,31 +39,18 @@
   (let* ((name (file-name-nondirectory
                 (directory-file-name default-directory)))
          (lib (expand-file-name (format "%s.el" name)))
-         (pkg (expand-file-name (format "%s-pkg.el" name)))
          (min nil))
-    (unless (file-exists-p lib)
-      (setq lib (expand-file-name (format "lisp/%s.el" name))))
-    (unless (file-exists-p pkg)
-      (setq pkg (expand-file-name (format "lisp/%s-pkg.el" name)))
-      (unless (file-exists-p pkg)
-        (setq pkg nil)))
     (log "• Directory: %s" default-directory)
+    (unless (file-exists-p lib)
+      (setq lib (expand-file-name (format "lisp/%s.el" name)))
+      (unless (file-exists-p lib)
+        (err "Main library not found: [lisp/]%s.el" name)))
     (log "• Library: %s" lib)
-    (log "• Package: %s" pkg)
-    (unless (or lib pkg)
-      (err "Neither library nor package file found"))
-    (when lib
-      (with-temp-buffer
-        (insert-file-contents lib)
-        (setq min (cadr (assq 'emacs (lm-package-requires))))))
+    (with-temp-buffer
+      (insert-file-contents lib)
+      (setq min (cadr (assq 'emacs (lm-package-requires)))))
     (unless min
-      (with-temp-buffer
-        (insert-file-contents pkg)
-        (setq min (cadr (assq 'emacs (package-desc-reqs
-                                      (package--read-pkg-desc 'tar))))))
-      (if min
-          (setq min (package-version-join min))
-        (err "Cannot determine minimal Emacs version")))
+      (err "Cannot determine minimal Emacs version"))
     (log "• Minimal Emacs version: %s" min)
     (let ((releases (reverse emacs-releases)) r supported)
       (while (and (setq r (pop releases))
