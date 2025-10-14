@@ -49,14 +49,14 @@
     (with-temp-buffer
       (insert-file-contents lib)
       (setq min (cadr (assq 'emacs (lm-package-requires)))))
-    (unless min
-      (err "Cannot determine minimal Emacs version"))
     (log "• Minimal Emacs version: %s" min)
     (let ((matrix
            (mapconcat (lambda (v) (format "%S" v))
-                      (nconc (list "snapshot" "release-snapshot")
-                             (seq-take-while (lambda (v) (version<= min v))
-                                             (reverse emacs-releases)))
+                      (if min
+                          (nconc (list "snapshot" "release-snapshot")
+                                 (seq-take-while (lambda (v) (version<= min v))
+                                                 (reverse emacs-releases)))
+                        (list "snapshot"))
                       ",")))
       (log "• matrix=[%s]" matrix)
       (msg "matrix=[%s]" matrix))))
