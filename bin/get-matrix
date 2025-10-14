@@ -54,9 +54,9 @@
     (log "• Minimal Emacs version: %s" min)
     (let ((matrix
            (mapconcat (lambda (v) (format "%S" v))
-                      (nconc (seq-take-while (lambda (v) (version<= min v))
-                                             (reverse emacs-releases))
-                             '("release-snapshot" "snapshot"))
+                      (nconc (list "snapshot" "release-snapshot")
+                             (seq-take-while (lambda (v) (version<= min v))
+                                             (reverse emacs-releases)))
                       ",")))
       (log "• matrix=[%s]" matrix)
       (msg "matrix=[%s]" matrix))))
