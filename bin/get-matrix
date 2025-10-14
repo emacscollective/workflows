@@ -52,15 +52,13 @@
     (unless min
       (err "Cannot determine minimal Emacs version"))
     (log "• Minimal Emacs version: %s" min)
-    (let ((releases (reverse emacs-releases)) r supported)
-      (while (and (setq r (pop releases))
-                  (version<= min r))
-        (push r supported))
-      (setq supported (nconc (nreverse supported)
-                             '("release-snapshot" "snapshot")))
-      (log "• matrix=[%s]"
-           (mapconcat (lambda (v) (format "%S" v)) supported ","))
-      (msg "matrix=[%s]"
-           (mapconcat (lambda (v) (format "%S" v)) supported ",")))))
+    (let ((matrix
+           (mapconcat (lambda (v) (format "%S" v))
+                      (nconc (seq-take-while (lambda (v) (version<= min v))
+                                             (reverse emacs-releases))
+                             '("release-snapshot" "snapshot"))
+                      ",")))
+      (log "• matrix=[%s]" matrix)
+      (msg "matrix=[%s]" matrix))))
 
 (kill-emacs (catch 'return (prog1 0 (main))))
