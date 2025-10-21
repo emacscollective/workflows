@@ -20,14 +20,14 @@
       (insert-file-contents file)
       (while (re-search-forward "^DEPS +\\+?= +\\([^/\n]+\\)" nil t)
         (let* ((dep (match-string 1)))
-          (message "Cloning %s..." dep)
           (if (member dep get-from-gnu-elpa)
-              (run "git" "clone" "--depth" "1"
-                   "--single-branch" "--branch" (concat "externals/" dep)
-                   ;; Use a mirror because this is down too frequently.
-                   ;; "https://git.savannah.gnu.org/git/emacs/elpa.git"
-                   "https://github.com/emacsmirror/gnu_elpa"
-                   (concat "../" dep))
+              ;; Use a mirror because this is down too frequently.
+              ;; "https://git.savannah.gnu.org/git/emacs/elpa.git"
+              (let ((url "https://github.com/emacsmirror/gnu_elpa"))
+                (message "Cloning %s from %s..." dep url)
+                (run "git" "clone" "--depth" "1"
+                     "--single-branch" "--branch" (concat "externals/" dep)
+                     url (concat "../" dep)))
             (let ((url (concat "https://github.com/emacsmirror/" dep)))
               (with-current-buffer urls
                 (goto-char (point-min))
@@ -35,6 +35,7 @@
                        (format "^<li>%s <a href=\"\\(.+\\)\">" dep)
                        nil t)
                   (setq url (match-string 1))))
+              (message "Cloning %s from %s..." dep url)
               (run "git" "clone" "--depth" "1" url (concat "../" dep)))))))))
 
 (kill-emacs (catch 'return (prog1 0 (main))))
