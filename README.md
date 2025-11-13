@@ -73,9 +73,8 @@ jobs:
 
 ## Generate and distribute webpage
 
-> [!NOTE]
-> [emacsair.me], [emacsmirror.net] and [magit.vc] are still published
-> using actions from [magit/actions].
+> [!NOTE] [emacsair.me], [emacsmirror.net] and [magit.vc] are still published
+> using locally defined workflows.
 
 ## Generate and distribute page from readme
 
