@@ -12,12 +12,14 @@ jobs:
     name: 'Generate manual'
     runs-on: ubuntu-24.04
     steps:
-      - name: 'Install Emacs'
+      - name: 'Install emacs'
         uses: purcell/setup-emacs@master
         with:
           version: 30.1
-      - name: 'Install Texlive'
-        run: sudo apt update && sudo apt install -y texlive
+      - name: 'Install texlive'
+        run: |
+          sudo apt update
+          sudo apt install -y texlive
       - name: 'Checkout ${{ github.repository }}'
         uses: actions/checkout@v5
         with:

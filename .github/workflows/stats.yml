@@ -16,7 +16,9 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: 'Install gitstats dependencies'
-        run: sudo apt update && sudo apt install -y gnuplot python2
+        run: |
+          sudo apt update
+          sudo apt install -y gnuplot python2
       - name: 'Install gitstats'
         uses: actions/checkout@v5
         with:
