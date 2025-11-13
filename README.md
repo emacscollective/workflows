@@ -12,8 +12,6 @@ Using them unmodified for your own packages likely won't work.
 ## Related resources
 
 - [emacscollective/org-macros] contains macros used in my manuals.
-- [emacscollective/workflow-experiments] together with `experiments.yml`
-  in this repository are used to run experiments.
 - [emacsmirror/.savannah] actions to mirror GNU Emacs and [Non]GNU Elpa.
 - [magit/actions] the deprecated predecessor of these workflows, which uses
   actions instead.  Don't do that—you would have to add more boilerplate to
