@@ -13,9 +13,7 @@
 (defun main ()
   (let ((file (expand-file-name "default.mk"))
         (urls (url-retrieve-synchronously
-               ;; Temporarily unavailable thanks to AI scrapers:
-               ;; "https://stat.emacsmirror.org/mirror/upstreams.html"
-               "https://raw.githubusercontent.com/emacsmirror/.statistics/main/upstreams.html")))
+               "https://stats.emacsmirror.org/mirror/upstreams.html")))
     (unless (file-exists-p file)
       (setq file (expand-file-name "Makefile")))
     (with-temp-buffer
