@@ -3,9 +3,7 @@ permissions: {}
 on:
   workflow_call:
     secrets:
-      aws-access-key-id:
-        required: true
-      aws-secret-access-key:
+      rclone_config:
         required: true
 env:
   pwd: ${{ github.event.repository.name }}
@@ -15,10 +13,10 @@ jobs:
     # ubuntu-24.04 removed python2
     runs-on: ubuntu-22.04
     steps:
-      - name: 'Install gitstats dependencies'
+      - name: 'Install dependencies'
         run: |
           sudo apt update
-          sudo apt install -y gnuplot python2
+          sudo apt install -y gnuplot python2 rclone
       - name: 'Install gitstats'
         uses: actions/checkout@v5
         with:
@@ -37,12 +35,12 @@ jobs:
         working-directory: ${{ env.pwd }}
         # GITSTATS must be relative to our docs/ directory.
         run: GITSTATS=../../_gitstats/gitstats make stats
-      - name: 'Configure credentials'
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-region: eu-central-1
-          aws-access-key-id: ${{ secrets.aws-access-key-id }}
-          aws-secret-access-key: ${{ secrets.aws-secret-access-key }}
+      - name: 'Configure rclone'
+        run: |
+          echo "${{secrets.rclone_config}}" |
+          base64 --decode > "${{runner.temp}}/rclone.conf"
       - name: 'Publish statistics'
         working-directory: ${{ env.pwd }}
         run: make stats-upload
+        env:
+          RCLONE_ARGS: --config "${{runner.temp}}/rclone.conf"

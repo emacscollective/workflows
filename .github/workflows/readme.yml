@@ -3,9 +3,7 @@ permissions: {}
 on:
   workflow_call:
     secrets:
-      aws-access-key-id:
-        required: true
-      aws-secret-access-key:
+      rclone_config:
         required: true
 jobs:
   manual:
@@ -16,6 +14,10 @@ jobs:
         uses: purcell/setup-emacs@master
         with:
           version: 30.1
+      - name: 'Install dependencies'
+        run: |
+          sudo apt update
+          sudo apt install -y rclone
       - name: 'Checkout ${{ github.repository }}'
         uses: actions/checkout@v5
         with:
@@ -23,11 +25,11 @@ jobs:
           persist-credentials: false
       - name: 'Export readme'
         run: make html
-      - name: 'Configure credentials'
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-region: eu-central-1
-          aws-access-key-id: ${{ secrets.aws-access-key-id }}
-          aws-secret-access-key: ${{ secrets.aws-secret-access-key }}
+      - name: 'Configure rclone'
+        run: |
+          echo "${{ secrets.rclone_config }}" |
+          base64 --decode > "${{ runner.temp }}/rclone.conf"
       - name: 'Publish readme'
         run: make publish
+        env:
+          RCLONE_ARGS: --config "${{ runner.temp }}/rclone.conf"
