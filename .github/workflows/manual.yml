@@ -19,7 +19,7 @@ jobs:
           sudo apt update
           sudo apt install -y texlive rclone
       - name: 'Checkout ${{ github.repository }}'
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
           persist-credentials: false
