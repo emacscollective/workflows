@@ -5,8 +5,7 @@ Using them unmodified for your own packages likely won't work.
 
 ## Used third-party actions
 
-- [actions/checkout@v4](https://github.com/actions/checkout)
-- [aws-actions/configure-aws-credentials@v4](https://github.com/aws-actions/configure-aws-credentials)
+- [actions/checkout](https://github.com/actions/checkout)
 - [purcell/setup-emacs@master](https://github.com/purcell/setup-emacs)
 
 ## Related resources
