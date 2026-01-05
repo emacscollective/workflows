@@ -3,35 +3,34 @@ permissions: {}
 on:
   workflow_call:
     secrets:
-      aws-access-key-id:
+      rclone_config:
         required: true
-      aws-secret-access-key:
-        required: true
-env:
-  pwd: ${{ github.event.repository.name }}
 jobs:
   publish:
     name: 'Publish page'
     runs-on: ubuntu-24.04
     steps:
-      - name: 'Install Emacs'
+      - name: 'Install emacs'
         uses: purcell/setup-emacs@master
         with:
           version: 30.1
+      - name: 'Install dependencies'
+        run: |
+          sudo apt update
+          sudo apt install -y rclone
       - name: 'Checkout ${{ github.repository }}'
         uses: actions/checkout@v6
         with:
-          path: ${{ env.pwd }}
           persist-credentials: false
+      - name: 'Configure rclone'
+        run: |
+          printf "${{ secrets.rclone_config }}" |
+          base64 --decode > "${{ runner.temp }}/rclone.conf"
       - name: 'Generate page'
-        working-directory: ${{ env.pwd }}
-        run: LOAD_PATH="-L ../org/lisp" make html
-      - name: 'Configure credentials'
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-region: eu-central-1
-          aws-access-key-id: ${{ secrets.aws-access-key-id }}
-          aws-secret-access-key: ${{ secrets.aws-secret-access-key }}
+        run: |
+          make html
       - name: 'Publish page'
-        working-directory: ${{ env.pwd }}
-        run: make publish
+        run: |
+          make publish
+        env:
+          RCLONE_ARGS: --config "${{ runner.temp }}/rclone.conf"
