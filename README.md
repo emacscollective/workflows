@@ -50,8 +50,8 @@ jobs:
 ## Generate and distribute manuals
 
 Used by [`borg`], [`epkg`], [`forge`], [`ghub`], [`magit`], [`magit-section`],
-[`transient`] and [`with-editor`].  Results can be found [here](manuals-magit)
-and [here](manuals-mirror).
+[`transient`] and [`with-editor`].  Results can be found [here][manuals-magit]
+and [here][manuals-mirror].
 
 Usage:
 
@@ -66,14 +66,14 @@ jobs:
     name: Manual
     uses: emacscollective/workflows/.github/workflows/manual.yml@main
     secrets:
-      aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      rclone_config: ${{ secrets.RCLONE_CONFIG }}
 ```
 
 ## Generate and distribute webpage
 
-> [!NOTE] [emacsair.me], [emacsmirror.net] and [magit.vc] are still published
-> using locally defined workflows.
+> [!NOTE]
+> [emacsair.me], [emacsmirror.net] and [magit.vc] are still published using
+> locally defined workflows.
 
 ## Generate and distribute page from readme
 
@@ -91,15 +91,20 @@ jobs:
     name: Readme
     uses: emacscollective/workflows/.github/workflows/readme.yml@main
     secrets:
-      aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      rclone_config: ${{ secrets.RCLONE_CONFIG }}
 ```
 
-## Generate and distribute statistics
+## Generate and distribute Emacsmirror statistics
+
+The Emacsmirror [statistics](https://emacsmirror.org/stats) are published from
+[here](https://github.com/emacsmirror/.statistics) using the `publish` workflow
+from this repository.
+
+## Generate and distribute package statistics
 
 Used by [`borg`], [`emacsql`], [`epkg`], [`forge`], [`ghub`], [`magit`],
 [`transient`] and [`with-editor`].  Results can be found [here][stats-magit]
-and [here][stats-mirror].
+and [here][stats-other].
 
 Usage:
 
@@ -115,8 +120,7 @@ jobs:
     name: Statistics
     uses: emacscollective/workflows/.github/workflows/stats.yml@main
     secrets:
-      aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      rclone_config: ${{ secrets.RCLONE_CONFIG }}
 ```
 
 [`borg`]:          https://github.com/emacscollective/borg
@@ -134,10 +138,10 @@ jobs:
 [emacsmirror.net]: https://emacsmirror.net
 [magit.vc]:        https://magit.vc
 
-[manuals-magit]:   https://magit.vc/manual/
-[manuals-mirror]:  https://emacsmirror.net/manual/
-[stats-magit]:     https://magit.vc/stats/
-[stats-mirror]:    https://emacsmirror.net/stats/
+[manuals-magit]:   https://docs.magit.vc
+[manuals-mirror]:  https://docs.emacsmirror.net
+[stats-magit]:     https://stats.magit.vc
+[stats-other]:     https://stats.emacsmirror.net
 
 [emacscollective/org-macros]: https://github.com/emacscollective/org-macros
 [emacscollective/workflow-experiments]: https://github.com/emacscollective/workflow-experiments
