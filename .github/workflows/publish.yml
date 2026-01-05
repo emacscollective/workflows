@@ -19,7 +19,7 @@ jobs:
         with:
           version: 30.1
       - name: 'Checkout ${{ github.repository }}'
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           path: ${{ env.pwd }}
           persist-credentials: false
