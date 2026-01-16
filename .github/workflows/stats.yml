@@ -16,7 +16,7 @@ jobs:
       - name: 'Install dependencies'
         run: |
           sudo apt update
-          sudo apt install -y gnuplot python2 rclone
+          sudo apt install -y gnuplot python2 rclone emacs
       - name: 'Install gitstats'
         uses: actions/checkout@v6
         with:
