@@ -42,4 +42,4 @@ jobs:
         working-directory: ${{ env.pwd }}
         run: make stats-upload
         env:
-          RCLONE_ARGS: --config "${{runner.temp}}/rclone.conf"
+          RCLONE_ARGS: -v --config "${{runner.temp}}/rclone.conf"
