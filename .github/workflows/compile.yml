@@ -39,9 +39,11 @@ jobs:
       - name: 'Get matrix'
         id: matrix
         working-directory: ${{ env.pwd }}
+        env:
+          WORKFLOW_REF: ${{ inputs.workflow_ref }}
         run: |
           ../_scripts/bin/get-matrix >> $GITHUB_OUTPUT
-          echo "• get-matrix: emacscollective/workflows@${{ inputs.workflow_ref }}"
+          echo "• get-matrix: emacscollective/workflows@${WORKFLOW_REF}"
   main:
     name: 'Compile using Emacs ${{ matrix.emacs }}'
     runs-on: ubuntu-24.04
@@ -81,9 +83,11 @@ jobs:
       - name: 'Compile (byte-compile-error-on-warn)'
         if: ${{ vars.byte_compile_error_on_warn != 'nil' }}
         working-directory: ${{ env.pwd }}
+        env:
+          COMPILE_ERROR_SETTINGS: ${{ vars.compile_error_settings }}
         run: |
           make EMACS_ARGS='--eval "(progn \
           (setq byte-compile-error-on-warn t) \
-          ${{ vars.compile_error_settings }} \
+          ${COMPILE_ERROR_SETTINGS} \
           (load-file \"${{ github.workspace }}/_scripts/lib/compile.el\"))"' \
           clean lisp
