@@ -27,11 +27,12 @@ jobs:
         run: |
           make html
       - name: 'Configure rclone'
+        env:
+          CONFIG: ${{ secrets.rclone_config }}
         run: |
-          printf "${{ secrets.rclone_config }}" |
-          base64 --decode > "${{ runner.temp }}/rclone.conf"
+          printf "${CONFIG}" | base64 --decode > "${RUNNER_TEMP}/rclone.conf"
       - name: 'Publish readme'
         env:
-          RCLONE_ARGS: -v --config "${{ runner.temp }}/rclone.conf"
+          RCLONE_ARGS: -v --config "${RUNNER_TEMP}/rclone.conf"
         run: |
           make publish
