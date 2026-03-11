@@ -31,7 +31,7 @@ jobs:
           printf "${{ secrets.rclone_config }}" |
           base64 --decode > "${{ runner.temp }}/rclone.conf"
       - name: 'Publish readme'
-        run: |
-          make publish
         env:
           RCLONE_ARGS: --config "${{ runner.temp }}/rclone.conf"
+        run: |
+          make publish

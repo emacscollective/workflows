@@ -30,7 +30,7 @@ jobs:
         run: |
           make html
       - name: 'Publish page'
-        run: |
-          make publish
         env:
           RCLONE_ARGS: --config "${{ runner.temp }}/rclone.conf"
+        run: |
+          make publish
