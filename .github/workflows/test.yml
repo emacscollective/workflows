@@ -71,7 +71,8 @@ jobs:
           persist-credentials: false
       - name: 'Install dependencies'
         working-directory: ${{ env.pwd }}
-        run: ../_scripts/bin/install-deps
+        run: |
+          ../_scripts/bin/install-deps
       - name: 'Compile'
         working-directory: ${{ env.pwd }}
         run: |
@@ -79,4 +80,5 @@ jobs:
           make lisp
       - name: 'Test'
         working-directory: ${{ env.pwd }}
-        run: make test
+        run: |
+          make test

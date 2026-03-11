@@ -29,17 +29,20 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
       - name: 'Configure timezone'
-        run: sudo timedatectl set-timezone Europe/Zurich
+        run: |
+          sudo timedatectl set-timezone Europe/Zurich
       - name: 'Generate statistics'
         working-directory: ${{ env.pwd }}
         # GITSTATS must be relative to our docs/ directory.
-        run: GITSTATS=../../_gitstats/gitstats make stats
+        run: |
+          GITSTATS=../../_gitstats/gitstats make stats
       - name: 'Configure rclone'
         run: |
           printf "${{secrets.rclone_config}}" |
           base64 --decode > "${{runner.temp}}/rclone.conf"
       - name: 'Publish statistics'
         working-directory: ${{ env.pwd }}
-        run: make stats-upload
+        run: |
+          make stats-upload
         env:
           RCLONE_ARGS: -v --config "${{runner.temp}}/rclone.conf"

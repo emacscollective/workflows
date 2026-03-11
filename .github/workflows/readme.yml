@@ -24,12 +24,14 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
       - name: 'Export readme'
-        run: make html
+        run: |
+          make html
       - name: 'Configure rclone'
         run: |
           printf "${{ secrets.rclone_config }}" |
           base64 --decode > "${{ runner.temp }}/rclone.conf"
       - name: 'Publish readme'
-        run: make publish
+        run: |
+          make publish
         env:
           RCLONE_ARGS: --config "${{ runner.temp }}/rclone.conf"
