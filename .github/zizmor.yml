@@ -1,0 +1,8 @@
+rules:
+  # Cannot use a dedicated environment because these workflows are
+  # used by private organization repositories, which do not support
+  # environments without paying for Github Teams (for each org).
+  # - https://docs.github.com/en/actions/how-tos/deploy/configure-and-manage-deployments/manage-environments#prerequisites
+  # - https://docs.zizmor.sh/audits/#secrets-outside-env
+  secrets-outside-env:
+     disable: true
