@@ -27,7 +27,7 @@ jobs:
         run: make html
       - name: 'Configure rclone'
         run: |
-          echo "${{ secrets.rclone_config }}" |
+          printf "${{ secrets.rclone_config }}" |
           base64 --decode > "${{ runner.temp }}/rclone.conf"
       - name: 'Publish readme'
         run: make publish
