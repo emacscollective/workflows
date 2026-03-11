@@ -5,7 +5,7 @@ on:
     # NOTE Here this isn't supported (yet?).
     # paths: ['**.el']
     inputs:
-      # NOTE Because there is nothing like 'github.worflow.ref'.
+      # NOTE github.workflow_ref is the revision of the caller.
       workflow_ref:
         description: 'Must be the same as "uses: ...@THIS"'
         default: main
