@@ -38,6 +38,6 @@ jobs:
           base64 --decode > "${{ runner.temp }}/rclone.conf"
       - name: 'Publish manual'
         env:
-          RCLONE_ARGS: --config "${{ runner.temp }}/rclone.conf"
+          RCLONE_ARGS: -v --config "${{ runner.temp }}/rclone.conf"
         run: |
           make ${{ github.ref_type == 'tag' && 'release' || 'publish' }}
