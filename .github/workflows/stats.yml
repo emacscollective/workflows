@@ -33,9 +33,11 @@ jobs:
           sudo timedatectl set-timezone Europe/Zurich
       - name: 'Generate statistics'
         working-directory: ${{ env.pwd }}
-        # GITSTATS must be relative to our docs/ directory.
+        env:
+          # Must be relative to our docs/ directory.
+          GITSTATS: ../../_gitstats/gitstats
         run: |
-          GITSTATS=../../_gitstats/gitstats make stats
+          make stats
       - name: 'Configure rclone'
         run: |
           printf "${{secrets.rclone_config}}" |
