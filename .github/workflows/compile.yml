@@ -21,7 +21,7 @@ jobs:
       matrix: ${{ steps.matrix.outputs.matrix }}
     steps:
       - name: 'Install Emacs'
-        uses: purcell/setup-emacs@bdc64dc730ae1fcba200bfd52cb1b4cf6159cbe5 # > v7
+        uses: purcell/setup-emacs@bdc64dc730ae1fcba200bfd52cb1b4cf6159cbe5 # v8
         with:
           version: 30.1
       - name: 'Install scripts'
@@ -54,7 +54,7 @@ jobs:
         emacs: ${{ fromJson(needs.matrix.outputs.matrix) }}
     steps:
       - name: 'Install Emacs'
-        uses: purcell/setup-emacs@bdc64dc730ae1fcba200bfd52cb1b4cf6159cbe5 # > v7
+        uses: purcell/setup-emacs@bdc64dc730ae1fcba200bfd52cb1b4cf6159cbe5 # v8
         with:
           version: ${{ matrix.emacs }}
       - name: 'Install scripts'
