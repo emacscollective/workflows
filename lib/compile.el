@@ -1,6 +1,3 @@
-(put 'if-let   'byte-obsolete-info nil)
-(put 'when-let 'byte-obsolete-info nil)
-
 (when (< emacs-major-version 30)
   (advice-add
    'internal--build-binding :around
