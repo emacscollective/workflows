@@ -1,3 +1,5 @@
+;; -*- lexical-binding:t -*-
+
 (when (< emacs-major-version 30)
   (advice-add
    'internal--build-binding :around

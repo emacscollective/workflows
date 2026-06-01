@@ -1,3 +1,5 @@
+;; -*- lexical-binding:t -*-
+
 (setq backtrace-line-length 0)
 
 (defun msg (format-string &rest args)
