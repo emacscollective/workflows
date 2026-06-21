@@ -8,7 +8,7 @@ on:
 jobs:
   manual:
     name: 'Export readme'
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - name: 'Install emacs'
         uses: purcell/setup-emacs@bdc64dc730ae1fcba200bfd52cb1b4cf6159cbe5 # v8
