@@ -13,7 +13,7 @@ jobs:
       - name: 'Install emacs'
         uses: purcell/setup-emacs@34c6ded44899fd1bf74d2889558befd1750e61a7 # > v8
         with:
-          version: 30.1
+          version: 31.1
       - name: 'Install dependencies'
         run: |
           sudo apt update
