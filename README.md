@@ -5,8 +5,8 @@ Using them unmodified for your own packages likely won't work.
 
 ## Used third-party actions
 
-- [actions/checkout](https://github.com/actions/checkout)
-- [purcell/setup-emacs@master](https://github.com/purcell/setup-emacs)
+- [actions/checkout](https://github.com/actions/checkout) v7.0.1
+- [purcell/setup-emacs](https://github.com/purcell/setup-emacs) > v8
 
 ## Related resources
 
