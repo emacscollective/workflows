@@ -3,9 +3,12 @@ permissions: {}
 on:
   workflow_call:
     # NOTE Here this isn't supported (yet?).
+    # https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#onworkflow_call
     # paths: ['**.el']
     inputs:
-      # NOTE github.workflow_ref is the revision of the caller.
+      # NOTE github.workflow_sha is the revision of the caller.
+      # https://docs.github.com/en/actions/how-tos/reuse-automations/reuse-workflows
+      # https://docs.github.com/en/actions/reference/workflows-and-actions/contexts
       workflow_ref:
         description: 'Must be the same as "uses: ...@THIS"'
         default: main
