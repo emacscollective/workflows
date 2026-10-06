@@ -5,6 +5,8 @@ on:
     secrets:
       rclone_config:
         required: true
+env:
+  TARGET: ${{ github.ref_type == 'tag' && 'release' || 'publish' }}
 jobs:
   manual:
     name: 'Generate manual'
@@ -41,4 +43,4 @@ jobs:
         env:
           RCLONE_ARGS: -v --config "${RUNNER_TEMP}/rclone.conf"
         run: |
-          make ${{ github.ref_type == 'tag' && 'release' || 'publish' }}
+          make ${TARGET}

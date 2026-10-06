@@ -78,7 +78,7 @@ jobs:
         working-directory: ${{ env.pwd }}
         run: |
           make EMACS_ARGS='--eval "(progn \
-          (load-file \"${{ github.workspace }}/_scripts/lib/compile.el\"))"' \
+          (load-file \"${GITHUB_WORKSPACE}/_scripts/lib/compile.el\"))"' \
           lisp
       - name: 'Compile (byte-compile-error-on-warn)'
         if: ${{ vars.byte_compile_error_on_warn != 'nil' }}
@@ -89,5 +89,5 @@ jobs:
           make EMACS_ARGS='--eval "(progn \
           (setq byte-compile-error-on-warn t) \
           ${COMPILE_ERROR_SETTINGS} \
-          (load-file \"${{ github.workspace }}/_scripts/lib/compile.el\"))"' \
+          (load-file \"${GITHUB_WORKSPACE}/_scripts/lib/compile.el\"))"' \
           clean lisp
