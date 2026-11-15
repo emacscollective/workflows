@@ -1,5 +1,8 @@
 name: 'Compile'
-permissions: {}
+# NOTE Cannot be set at the step level.  Since both jobs need it,
+# we might as well set it for the whole workflow.
+permissions:
+  contents: read
 on:
   workflow_call:
     # NOTE Here this isn't supported (yet?).
